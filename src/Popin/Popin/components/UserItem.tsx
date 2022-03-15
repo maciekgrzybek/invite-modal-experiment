@@ -30,8 +30,8 @@ export const UserItem = ({
       ) : (
         <Center
           bg="secondary"
-          w="1.8em"
-          h="1.8em"
+          w="1.55em"
+          h="1.55em"
           as="span"
           borderRadius="9999px"
           marginRight="0.625rem"
@@ -41,7 +41,9 @@ export const UserItem = ({
         </Center>
       )}
 
-      <span>{isEmailType ? email : `${firstName} ${lastName}`}</span>
+<Flex alignItems="center" as="span">
+        {isEmailType ? email : `${firstName} ${lastName}`}
+      </Flex>
     </Flex>
   );
 };

@@ -1,4 +1,4 @@
-import { List, ListItem } from '@chakra-ui/react';
+import { Flex, List, ListItem, Text } from '@chakra-ui/react';
 
 import type { EnhancedUser } from '../types';
 import { UserItem } from './UserItem';
@@ -9,10 +9,10 @@ type Props = {
 };
 
 export const DropdownList = ({ users, handleListItemClick }: Props) => {
+  console.log(users.length, 'l');
   return (
-    <List
+    <Flex
       padding="1rem"
-      spacing={2}
       position="absolute"
       left="0px"
       borderRadius="10px"
@@ -20,23 +20,32 @@ export const DropdownList = ({ users, handleListItemClick }: Props) => {
       bg="bgDark.200"
       w="100%"
     >
-      {users.map((user) => {
-        return (
-          <ListItem
-            key={user.id}
-            onClick={() => handleListItemClick(user)}
-            cursor="pointer"
-            padding="0.7rem"
-            borderRadius="6px"
-            title="Select user"
-            _hover={{
-              backgroundColor: 'bgDark.300',
-            }}
-          >
-            <UserItem {...user} />
-          </ListItem>
-        );
-      })}
-    </List>
+      {Boolean(users.length) ? (
+        <List spacing={2} w="100%">
+          {users.map((user) => {
+            return (
+              <ListItem
+                key={user.id}
+                onClick={() => handleListItemClick(user)}
+                cursor="pointer"
+                padding="0.7rem"
+                borderRadius="6px"
+                title="Select user"
+                _hover={{
+                  backgroundColor: 'bgDark.300',
+                }}
+              >
+                <UserItem {...user} />
+              </ListItem>
+            );
+          })}
+        </List>
+      ) : (
+        <Text as="span" fontSize="11px">
+          No matched matched members, sorry. <br />
+          Try with a different phrase.
+        </Text>
+      )}
+    </Flex>
   );
 };

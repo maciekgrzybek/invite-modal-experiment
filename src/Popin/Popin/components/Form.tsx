@@ -1,4 +1,12 @@
-import { Button, Flex, Grid, Input, useOutsideClick } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  Grid,
+  Input,
+  Spinner,
+  useOutsideClick,
+} from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
 import { useRef, useState } from 'react';
 
@@ -17,14 +25,19 @@ export const Form = ({ onSubmit }: Props) => {
   useOutsideClick({ ref: areaRef, handler: () => setShouldShowList(false) });
 
   const {
-    filteredUsers,
     addToSelectedUsers,
+    error,
+    filteredUsers,
     handleSubmit,
     inputValue,
+    isFetching,
+    isSuccess,
     removeFromSelectedUsers,
     selectedUsers,
     setInputValue,
   } = useForm(onSubmit);
+
+  console.log({ isFetching });
 
   return (
     <form onSubmit={handleSubmit}>
@@ -35,7 +48,8 @@ export const Form = ({ onSubmit }: Props) => {
           borderColor="gray.400"
           borderRadius="10px"
           flexWrap="wrap"
-          gap="0.5rem"
+          gap="0.6rem"
+          h="100%"
           padding={selectedUsers.length ? '0.4rem' : 0}
           position="relative"
           ref={areaRef}
@@ -52,43 +66,58 @@ export const Form = ({ onSubmit }: Props) => {
               color="secondary"
             >
               <UserItem {...user} size="small" />
-              <div title="Remove user">
+
+              <Flex alignItems="center" as="span" title="Remove user">
                 <CloseIcon
-                  w="10px"
+                  w="9px"
                   marginLeft="0.625rem"
                   cursor="pointer"
                   onClick={() => removeFromSelectedUsers(user.id)}
                 />
-              </div>
+              </Flex>
             </Flex>
           ))}
-          <Input
-            borderRadius={10}
-            type="text"
-            value={inputValue}
-            variant="outline"
-            bg="bgDark.200"
-            onFocus={() => setShouldShowList(true)}
-            flex={1}
-            borderColor="transparent"
-            focusBorderColor="transparent"
-            _hover={{ borderColor: 'transparent' }}
-            placeholder="Search names or emails..."
-            _placeholder={{
-              opacity: 0.3,
-              color: 'white',
-              fontSize: '0.825rem',
-            }}
-            onChange={(e) => setInputValue(e.target.value)}
-            minWidth="150px"
-          />
-          {filteredUsers && filteredUsers?.length > 0 && shouldShowList && (
+
+          <Flex
+            position="relative"
+            w="100%"
+            flex="1"
+            alignItems="center"
+            paddingRight="0.5rem"
+          >
+            <Input
+              borderRadius={10}
+              type="text"
+              value={inputValue}
+              variant="outline"
+              bg="bgDark.200"
+              onFocus={() => setShouldShowList(true)}
+              flex={1}
+              h="auto"
+              borderColor="transparent"
+              focusBorderColor="transparent"
+              _hover={{ borderColor: 'transparent' }}
+              placeholder="Search names or emails..."
+              _placeholder={{
+                opacity: 0.3,
+                color: 'white',
+                fontSize: '0.825rem',
+              }}
+              onChange={(e) => setInputValue(e.target.value)}
+              minWidth="100px"
+              fontSize="0.85rem"
+            />
+            {isFetching && <Spinner color="white" size="sm" />}
+          </Flex>
+
+          {filteredUsers && isSuccess && shouldShowList && (
             <DropdownList
               users={filteredUsers}
               handleListItemClick={addToSelectedUsers}
             />
           )}
         </Flex>
+
         <Button
           variant="main"
           type="submit"
@@ -96,6 +125,11 @@ export const Form = ({ onSubmit }: Props) => {
         >
           Invite
         </Button>
+        {error && (
+          <Box color="red.500" fontSize="sm" role="alert" paddingLeft="1rem">
+            Oops... something went wrong. Please try again
+          </Box>
+        )}
       </Grid>
     </form>
   );

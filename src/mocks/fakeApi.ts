@@ -22,6 +22,12 @@ const Users = [
     id: '101',
     email: 'tristan@claap.com',
   },
+  {
+    firstName: 'Tony',
+    lastName: 'Soprano',
+    id: '102',
+    email: 'jersey@claap.com',
+  },
 ];
 
 const normalize = (input: string): string => {

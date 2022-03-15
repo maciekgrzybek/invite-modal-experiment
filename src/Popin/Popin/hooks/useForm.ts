@@ -7,7 +7,8 @@ import { useSelectUsers } from './useSelectUsers';
 export const useForm = (onSubmit: (users: EnhancedUser[]) => void) => {
   const [inputValue, setInputValue] = useState('');
   const debouncedInputValue = useDebounce(inputValue);
-  const { data } = useSearchUsers(debouncedInputValue);
+  const { data, error, isSuccess, isFetching } =
+    useSearchUsers(debouncedInputValue);
   const {
     selectedUsers,
     addToSelectedUsers,
@@ -29,9 +30,12 @@ export const useForm = (onSubmit: (users: EnhancedUser[]) => void) => {
 
   return {
     addToSelectedUsers,
+    error,
     filteredUsers,
     handleSubmit,
     inputValue,
+    isFetching,
+    isSuccess,
     removeFromSelectedUsers,
     selectedUsers,
     setInputValue,

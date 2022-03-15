@@ -24,9 +24,14 @@ export const Popin = ({ isOpen, onClose, onSend }: Props) => {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="xl">
+    <Modal isOpen={isOpen} onClose={onClose} size="lg">
       <ModalOverlay />
-      <ModalContent bg="bgDark.100" color="white" padding="4rem" top="10vh">
+      <ModalContent
+        bg="bgDark.100"
+        color="white"
+        padding={['2rem', '4rem']}
+        top="10vh"
+      >
         <ModalHeader
           textAlign="center"
           color="textGrey.100"
