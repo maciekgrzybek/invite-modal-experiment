@@ -38,8 +38,6 @@ export const Form = ({ onSubmit, initialRef }: Props) => {
     setInputValue,
   } = useForm(onSubmit);
 
-  console.log({ isFetching });
-
   return (
     <form onSubmit={handleSubmit}>
       <Grid templateColumns="auto min-content" gap="1rem" alignItems="center">

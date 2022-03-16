@@ -1,4 +1,5 @@
-import { Flex, List, ListItem, Text } from '@chakra-ui/react';
+import { Button, Flex, List, ListItem, Text } from '@chakra-ui/react';
+import { useKeyboardOnDropdown } from '../hooks/useKeyboardOnDropdown';
 
 import type { EnhancedUser } from '../types';
 import { UserItem } from './UserItem';
@@ -9,7 +10,7 @@ type Props = {
 };
 
 export const DropdownList = ({ users, handleListItemClick }: Props) => {
-  console.log(users.length, 'l');
+  const { refs, handleSelecting } = useKeyboardOnDropdown(users);
   return (
     <Flex
       padding="1rem"
@@ -22,20 +23,29 @@ export const DropdownList = ({ users, handleListItemClick }: Props) => {
     >
       {Boolean(users.length) ? (
         <List spacing={2} w="100%">
-          {users.map((user) => {
+          {users.map((user, index) => {
             return (
-              <ListItem
-                key={user.id}
-                onClick={() => handleListItemClick(user)}
-                cursor="pointer"
-                padding="0.7rem"
-                borderRadius="6px"
-                title="Select user"
-                _hover={{
-                  backgroundColor: 'bgDark.300',
-                }}
-              >
-                <UserItem {...user} />
+              <ListItem key={user.id} title="Select user">
+                <Button
+                  ref={refs[index]}
+                  variant="unstyled"
+                  cursor="pointer"
+                  padding="0.7rem"
+                  borderRadius="6px"
+                  w="100%"
+                  onClick={() => {
+                    handleSelecting();
+                    handleListItemClick(user);
+                  }}
+                  _focus={{
+                    backgroundColor: 'bgDark.300',
+                  }}
+                  _hover={{
+                    backgroundColor: 'bgDark.300',
+                  }}
+                >
+                  <UserItem {...user} />
+                </Button>
               </ListItem>
             );
           })}
