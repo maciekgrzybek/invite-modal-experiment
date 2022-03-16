@@ -13,9 +13,8 @@ import { useState } from 'react';
 const queryClient = new QueryClient();
 
 export const App = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure({ id: 'popin-modal' });
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [sentUsers, setSentUsers] = useState<EnhancedUser[]>([]);
-  
 
   return (
     <ChakraProvider theme={theme}>
