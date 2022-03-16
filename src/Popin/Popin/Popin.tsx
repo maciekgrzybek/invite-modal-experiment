@@ -7,6 +7,7 @@ import {
   ModalOverlay,
   Text,
 } from '@chakra-ui/react';
+import { useRef } from 'react';
 
 import { Form } from './components/Form';
 import { EnhancedUser } from './types';
@@ -18,13 +19,19 @@ type Props = {
 };
 
 export const Popin = ({ isOpen, onClose, onSend }: Props) => {
+  const initialRef = useRef<HTMLInputElement>(null);
   const onSubmit = (users: EnhancedUser[]) => {
     onSend(users);
     onClose();
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="lg">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size="lg"
+      initialFocusRef={initialRef}
+    >
       <ModalOverlay />
       <ModalContent
         bg="bgDark.100"
@@ -54,7 +61,7 @@ export const Popin = ({ isOpen, onClose, onSend }: Props) => {
           >
             Send members an email invitation to join this workspace
           </Text>
-          <Form onSubmit={onSubmit} />
+          <Form onSubmit={onSubmit} initialRef={initialRef} />
         </ModalBody>
       </ModalContent>
     </Modal>

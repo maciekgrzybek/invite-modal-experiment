@@ -8,7 +8,7 @@ import {
   useOutsideClick,
 } from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
-import { useRef, useState } from 'react';
+import { RefObject, useRef, useState } from 'react';
 
 import { EnhancedUser } from '../types';
 import { DropdownList } from './DropdownList';
@@ -17,9 +17,10 @@ import { useForm } from '../hooks/useForm';
 
 type Props = {
   onSubmit: (users: EnhancedUser[]) => void;
+  initialRef: RefObject<HTMLInputElement>;
 };
 
-export const Form = ({ onSubmit }: Props) => {
+export const Form = ({ onSubmit, initialRef }: Props) => {
   const areaRef = useRef<HTMLDivElement>(null);
   const [shouldShowList, setShouldShowList] = useState(true);
   useOutsideClick({ ref: areaRef, handler: () => setShouldShowList(false) });
@@ -106,6 +107,7 @@ export const Form = ({ onSubmit }: Props) => {
               onChange={(e) => setInputValue(e.target.value)}
               minWidth="100px"
               fontSize="0.85rem"
+              ref={initialRef}
             />
             {isFetching && <Spinner color="white" size="sm" />}
           </Flex>

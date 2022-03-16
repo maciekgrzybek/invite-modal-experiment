@@ -6,7 +6,10 @@ export const theme = extendTheme({
     body: 'Lato, sans-serif',
   },
   colors: {
-    main: '#2C54EA',
+    main: {
+      100: '#2C54EA',
+      200: '#173ecd',
+    },
     secondary: '#EE748F',
     bgDark: {
       100: '#272D45',
@@ -25,12 +28,16 @@ export const theme = extendTheme({
     Button: {
       variants: {
         main: {
-          bg: 'main',
+          bg: 'main.100',
           color: 'white',
           fontSize: '0.825rem',
           padding: '0.625rem 1.375rem',
           fontWeight: 700,
           borderRadius: '10px',
+          transition: '200ms',
+          _hover: {
+            backgroundColor: 'main.200',
+          },
         },
       },
     },
